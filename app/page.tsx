@@ -1,65 +1,116 @@
-import Image from "next/image";
+import Navbar from './sections/Navbar';
+import HeroCarousel from './sections/HeroCarousel';
+import NewsSection from './sections/NewsSection';
+import Sidebar from './sections/Sidebar';
+import Footer from './sections/Footer';
+import LeftAd from './sections/LeftAd';
+import RightAd from './sections/RightAd';
+import type { Metadata } from 'next';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: '我爱竞彩 | 全球顶级体育赛事预测与盘口分析',
+  description: '专注2026世界杯、NBA、欧洲五大联赛等顶级赛事的深度前瞻、战术解密与实力盘口分析，助您掌握赛场先机。',
+  keywords: ['足球预测', 'NBA预测', '世界杯分析', '盘口分析', '体育资讯', '赛前前瞻'],
+};
+// 1. 升级版数据引擎：向 WordPress 索要完整的数据包！
+async function getLatestMatches() {
+  try {
+    const res = await fetch('https://woaijingc.com/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `
+          query GetPosts {
+            posts(first: 200) {
+              nodes {
+                id
+                title
+                excerpt
+                date
+                categories {
+                  nodes {
+                    name
+                  }
+                }
+                featuredImage {
+                  node {
+                    sourceUrl
+                  }
+                }
+              }
+            }
+          }
+        `
+      }),
+      cache: 'no-store' 
+    });
+    const json = await res.json();
+    const wpPosts = json.data?.posts?.nodes || [];
+
+    // 2. 核心魔法：把 WordPress 的生肉数据，精细加工成 Kimi 卡片需要的熟肉！
+    return wpPosts.map((post: any) => {
+      // 帮摘要脱掉 HTML 外衣 (WP 默认会带 <p> 标签)
+      const cleanExcerpt = post.excerpt ? post.excerpt.replace(/<[^>]+>/g, '') : '暂无摘要...';
+      // 提取所有分类名数组，用于过滤
+      const categoryNames = post.categories?.nodes?.map((cat: any) => cat.name) || ['综合'];
+      // 提取主分类（取第一个用于显示）
+      const categoryName = categoryNames[0];
+      // 提取封面图，如果你某篇文章忘配图了，就用一张默认的酷炫体育图保底
+      const imageUrl = post.featuredImage?.node?.sourceUrl || 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=400&h=300&fit=crop';
+      // 把英文时间转换成年月日
+      const publishDate = new Date(post.date).toLocaleDateString('zh-CN');
+
+      return {
+        id: post.id,
+        title: post.title,
+        summary: cleanExcerpt,
+        category: categoryName,
+        categories: categoryNames,
+        image: imageUrl,
+        date: post.date,
+        publishTime: publishDate,
+        // 下面这些互动数据你的 WP 暂时没有，我们先随机生成一些假的让排版好看
+        author: '本站专栏',
+        views: Math.floor(Math.random() * 50000) + 10000, 
+        comments: Math.floor(Math.random() * 500) + 10,
+        isHot: true 
+      };
+    });
+
+  } catch (error) {
+    console.error("获取文章失败:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  // 在服务器端拿到完美加工后的文章
+  const posts = await getLatestMatches();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gray-50/50">
+      <Navbar />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <HeroCarousel posts={posts} />
+        <div className="xl:hidden mt-6 mb-4">
+          <LeftAd />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          <div className="lg:col-span-2">
+            {/* 把加工好的完美数据送给列表！ */}
+            <NewsSection posts={posts} />
+          </div>
+          <div className="lg:col-span-1 space-y-5">
+            <div className="hidden lg:block">
+              <Sidebar />
+            </div>
+            <div className="lg:hidden">
+              <Sidebar />
+            </div>
+          </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
