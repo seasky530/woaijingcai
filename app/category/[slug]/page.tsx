@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 // 1. 向 WordPress 发送 GraphQL 请求，精准拿取特定分类下的文章
 async function getCategoryPosts(slug: string) {
   try {
-    const res = await fetch('https://woaijingc.com/graphql', {
+    const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

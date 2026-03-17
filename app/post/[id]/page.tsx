@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 // 1. 去 WordPress 调取单篇文章完整正文的接口
 async function getPost(id: string) {
   try {
-    const res = await fetch('https://woaijingc.com/graphql', {
+    const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
