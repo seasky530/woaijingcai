@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 // 1. 升级版数据引擎：向 WordPress 索要完整的数据包！
 async function getLatestMatches() {
   try {
-    const res = await fetch('https://woaijingc.com/graphql', {
+    const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
