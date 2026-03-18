@@ -66,7 +66,7 @@ export default async function CategoryPage({ params }: any) {
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold text-gray-800">该分类下暂无文章</h1>
+          <h2 className="text-2xl font-bold text-gray-800">该分类下暂无文章</h2>
           <Link href="/" className="mt-4 text-red-600 hover:underline">返回首页</Link>
         </div>
         <Footer />

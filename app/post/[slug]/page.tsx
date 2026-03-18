@@ -73,7 +73,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   if (!post) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold text-gray-800">404 - 文章找不到了</h1>
+        <h2 className="text-2xl font-bold text-gray-800">404 - 文章找不到了</h2>
         <Link href="/" className="mt-4 text-red-600 hover:underline">返回首页</Link>
       </div>
     );
