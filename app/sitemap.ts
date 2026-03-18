@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ⚠️ 注意：这里我用的是 /post/${post.databaseId}，请确保这和你的实际文章链接一致！
     // 如果你的文章链接是带英文/拼音的，请把 post.databaseId 改成 post.slug
     const dynamicRoutes = data.posts.nodes.map((post: any) => ({
-      url: `https://woaijingc.com/post/${post.databaseId}`, 
+      url: `https://woaijingc.com/post/${post.slug}`,
       lastModified: new Date(post.modified),
       changeFrequency: 'daily' as const,
       priority: 0.8,
