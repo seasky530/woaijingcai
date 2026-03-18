@@ -150,3 +150,27 @@ body {
     color: #f9fafb;
   }
 }
+
+/* 强制覆盖 Next.js 默认重置的 WordPress 表格样式 */
+table, .wp-block-table table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5rem 0 !important;
+  font-size: 0.95rem !important;
+}
+
+table th, table td, .wp-block-table th, .wp-block-table td {
+  border: 1px solid #e5e7eb !important;
+  padding: 12px 16px !important;
+  text-align: center !important;
+}
+
+table th, .wp-block-table th {
+  background-color: #f3f4f6 !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+}
+
+table tr:nth-child(even), .wp-block-table tr:nth-child(even) {
+  background-color: #f9fafb !important;
+}
