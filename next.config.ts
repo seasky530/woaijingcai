@@ -8,6 +8,17 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // 🖼️ 图片域名白名单：允许 Next.js 优化并显示来自 WordPress 的图片
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.woaijingc.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
