@@ -32,7 +32,7 @@ async function getPost(id: string) {
         `,
         variables: { id }
       }),
-      cache: 'no-store'
+      next: { revalidate: 60 }
     });
     const json = await res.json();
     return json.data?.post;

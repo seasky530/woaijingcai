@@ -42,7 +42,7 @@ async function getLatestMatches() {
           }
         `
       }),
-      cache: 'no-store' 
+      next: { revalidate: 60 } 
     });
     const json = await res.json();
     const wpPosts = json.data?.posts?.nodes || [];
