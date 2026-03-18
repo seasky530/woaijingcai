@@ -65,7 +65,7 @@ export default function HeroCarousel({ posts = [] }: { posts?: any[] }) {
             <div className="group/link">
               <h1 className="mb-2 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight group-hover/link:text-red-400 transition-colors drop-shadow-lg">
                 {item.title}
-              </h2>
+              </h1>
               <p className="hidden sm:block text-gray-200 text-sm sm:text-base max-w-2xl line-clamp-2 drop-shadow-md">
                 {item.subtitle}
               </p>
