@@ -68,7 +68,7 @@ export default function NewsSection({ posts }: { posts: any[] }) {
             const imgUrl = post.featuredImage?.node?.sourceUrl || post.image || '';
 
             return (
-              <Link key={post.id || post.slug} href={`/post/${post.id || post.slug}`} className="group bg-white rounded-2xl border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+              <Link key={post.id || post.slug} href={`/post/${post.slug}`} className="group bg-white rounded-2xl border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 <div className="aspect-[16/9] w-full relative overflow-hidden bg-gray-100">
                   {imgUrl ? (
                     <img src={imgUrl} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

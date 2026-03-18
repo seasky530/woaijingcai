@@ -24,6 +24,7 @@ async function getLatestMatches() {
             posts(first: 200) {
               nodes {
                 id
+                slug
                 title
                 excerpt
                 date
@@ -62,6 +63,7 @@ async function getLatestMatches() {
 
       return {
         id: post.id,
+        slug: post.slug,
         title: post.title,
         summary: cleanExcerpt,
         category: categoryName,

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 // 1. 去 WordPress 调取单篇文章完整正文的接口
-async function getPost(id: string) {
+async function getPost(slug: string) {
   try {
     const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
@@ -12,7 +12,7 @@ async function getPost(id: string) {
       body: JSON.stringify({
         query: `
           query GetPost($id: ID!) {
-            post(id: $id, idType: ID) {
+            post(id: $id, idType: SLUG) {
               title
               content
               excerpt 
@@ -30,7 +30,7 @@ async function getPost(id: string) {
             }
           }
         `,
-        variables: { id }
+        variables: { id: slug }
       }),
       next: { revalidate: 60 }
     });
@@ -43,10 +43,10 @@ async function getPost(id: string) {
 }
 
 // 2. 🔥 万能兼容版 SEO 引擎：强制写入真实标题！
-export async function generateMetadata({ params }: any): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   // 兼容不同版本的 Next.js 参数读取
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.id);
+  const post = await getPost(resolvedParams.slug);
 
   if (!post) {
     return { title: '赛事分析 | S SPORTS' };
@@ -64,10 +64,10 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 }
 
 // 3. 详情页主组件
-export default async function PostPage({ params }: any) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   // 同样兼容处理参数
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.id);
+  const post = await getPost(resolvedParams.slug);
 
   // 如果文章不存在的兜底页面
   if (!post) {
