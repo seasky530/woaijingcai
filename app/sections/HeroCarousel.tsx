@@ -8,6 +8,7 @@ import Link from 'next/link';
 const fallbackItems = [
   {
     id: 'fallback-1',
+    slug: 'fallback-1',
     image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=1200&h=500&fit=crop',
     title: '欧冠决赛：皇马vs曼城巅峰对决',
     subtitle: '两支豪门球队将在伊斯坦布尔争夺欧洲最高荣誉',
@@ -22,6 +23,7 @@ export default function HeroCarousel({ posts = [] }: { posts?: any[] }) {
   const carouselItems = posts.length > 0 
     ? posts.slice(0, 3).map(post => ({
         id: post.id,
+        slug: post.slug,
         image: post.image,
         title: post.title,
         // 把摘要当做副标题，如果没有摘要就写一句引导点击的话
@@ -48,7 +50,7 @@ export default function HeroCarousel({ posts = [] }: { posts?: any[] }) {
       {/* 轮播图片列表 */}
       {carouselItems.map((item, index) => (
         <Link
-          href={`/post/${item.id}`}
+          href={`/post/${item.slug}`}
           key={item.id}
           className={`absolute inset-0 transition-opacity duration-1000 ${
             currentSlide === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
