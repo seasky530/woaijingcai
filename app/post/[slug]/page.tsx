@@ -2,6 +2,7 @@ import Navbar from '@/app/sections/Navbar';
 import Footer from '@/app/sections/Footer';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { SafeHtml } from '@/components/safe-html';
 
 // 1. 去 WordPress 调取单篇文章完整正文的接口
 async function getPost(slug: string) {
@@ -110,9 +111,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               {post.title}
             </h1>
             
-            <div 
-              className="text-gray-700 text-lg leading-relaxed space-y-6 [&>p]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>img]:rounded-xl [&>img]:my-6"
-              dangerouslySetInnerHTML={{ __html: post.content }} 
+            <SafeHtml 
+              html={post.content}
+              className="text-gray-700 text-lg leading-relaxed space-y-6 [&>p]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4"
             />
           </div>
         </article>
