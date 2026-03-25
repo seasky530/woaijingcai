@@ -1,13 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 🔥 终极特权 1: 打包时无视所有 TypeScript 类型报错
+  // 🔥 TypeScript 配置: 打包时无视类型报错
   typescript: {
     ignoreBuildErrors: true,
-  },
-  
-  // 🔥 终极特权 2: 打包时无视所有 ESLint 语法检查报错
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 
   // ✅ SEO 优化: 统一 URL 格式，禁用斜杠结尾，避免重复内容问题
@@ -41,10 +36,24 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
-      // ✅ 处理 WordPress 残留的死链：将所有 /wp-* 路径重定向到首页
-      // 包括 wp-admin, wp-login.php, wp-content, wp-includes 等
+      // ✅ 处理 WordPress 残留的死链（明确路径配置，避免通配符报错）
       {
-        source: '/wp-:path*',
+        source: '/wp-admin/:path*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wp-content/:path*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wp-includes/:path*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wp-login.php',
         destination: '/',
         permanent: true,
       },
