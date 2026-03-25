@@ -7,10 +7,15 @@ import LeftAd from './sections/LeftAd';
 import RightAd from './sections/RightAd';
 import type { Metadata } from 'next';
 
+// ✅ 首页 SEO 配置 - 必须明确设置 canonical URL，避免被搜索引擎视为重复内容
 export const metadata: Metadata = {
   title: '我爱竞彩 | 全球顶级体育赛事预测与盘口分析',
   description: '专注2026世界杯、NBA、欧洲五大联赛等顶级赛事的深度前瞻、战术解密与实力盘口分析，助您掌握赛场先机。',
   keywords: ['足球预测', 'NBA预测', '世界杯分析', '盘口分析', '体育资讯', '赛前前瞻'],
+  // ✅ 首页 canonical URL - 使用绝对路径 https://woaijingc.com/
+  alternates: {
+    canonical: 'https://woaijingc.com/',
+  },
 };
 // 1. 升级版数据引擎：向 WordPress 索要完整的数据包！
 async function getLatestMatches() {

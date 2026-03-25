@@ -9,6 +9,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+
+  // ✅ SEO 优化: 统一 URL 格式，禁用斜杠结尾，避免重复内容问题
+  // 使用 false 表示所有页面都不带斜杠，如 /post/hello 而非 /post/hello/
+  trailingSlash: false,
   
   // 🖼️ 图片域名白名单: 允许 Next.js 优化并显示来自 WordPress 的图片
   images: {

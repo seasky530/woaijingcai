@@ -43,16 +43,31 @@ async function getCategoryPosts(slug: string) {
   }
 }
 
-// 2. 万能兼容 SEO 引擎（给每个分类页单独做 SEO）
+// 2. ✅ SEO 引擎：为每个分类页生成独立的 metadata 和 canonical URL
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const resolvedParams = await params;
   const category = await getCategoryPosts(resolvedParams.slug);
 
-  if (!category) return { title: '分类未找到 | 我爱竞彩' };
+  if (!category) {
+    return {
+      title: '分类未找到 | 我爱竞彩',
+      alternates: {
+        canonical: 'https://woaijingc.com/',
+      },
+    };
+  }
+
+  // ✅ 生成精确的 canonical URL，格式：https://woaijingc.com/category/{slug}
+  // 确保与 sitemap 中的 URL 格式一致，避免重复内容问题
+  const canonicalUrl = `https://woaijingc.com/category/${resolvedParams.slug}`;
 
   return {
     title: `${category.name}赛事预测与分析 | 我爱竞彩`,
     description: `最新最全的${category.name}赛事前瞻、盘口分析与高阶数据解读。`,
+    // ✅ 设置规范化链接，告知搜索引擎这是此页面的正式 URL
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 

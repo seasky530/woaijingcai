@@ -43,14 +43,19 @@ async function getPost(slug: string) {
   }
 }
 
-// 2. 🔥 万能兼容版 SEO 引擎：强制写入真实标题！
+// 2. 🔥 ✅ SEO 引擎：生成独立的 metadata 和精确的 canonical URL
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   // 兼容不同版本的 Next.js 参数读取
   const resolvedParams = await params;
   const post = await getPost(resolvedParams.slug);
 
   if (!post) {
-    return { title: '赛事分析 | S SPORTS' };
+    return {
+      title: '赛事分析 | S SPORTS',
+      alternates: {
+        canonical: 'https://woaijingc.com/',
+      },
+    };
   }
 
   // 帮摘要脱掉 HTML 外衣，做成完美的 SEO 描述
@@ -58,9 +63,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ? post.excerpt.replace(/<[^>]+>/g, '').substring(0, 150) 
     : '深度赛事前瞻与盘口分析';
 
+  // ✅ 生成精确的 canonical URL，格式：https://woaijingc.com/post/{slug}
+  // 确保与 sitemap 中的 URL 格式一致，避免重复内容问题
+  const canonicalUrl = `https://woaijingc.com/post/${resolvedParams.slug}`;
+
   return {
     title: `${post.title} | S SPORTS`,
     description: cleanDescription,
+    // ✅ 设置规范化链接，告知搜索引擎这是此页面的正式 URL
+    // 这是解决"User-declared canonical None" 错误的关键
+    alternates: {
+      canonical: canonicalUrl,
+    },
   };
 }
 
