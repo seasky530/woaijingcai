@@ -30,8 +30,21 @@ const nextConfig = {
   // ✅ 增加分类页面 301 重定向：旧短链接 /nba 等 -> 新路径 /category/nba
   async redirects() {
     return [
+      // ✅ 处理 /home 和 /home/ 两种形式，统一 301 重定向到首页
       {
         source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/home/:path*',
+        destination: '/',
+        permanent: true,
+      },
+      // ✅ 处理 WordPress 残留的死链：将所有 /wp-* 路径重定向到首页
+      // 包括 wp-admin, wp-login.php, wp-content, wp-includes 等
+      {
+        source: '/wp-:path*',
         destination: '/',
         permanent: true,
       },
