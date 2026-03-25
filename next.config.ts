@@ -27,6 +27,7 @@ const nextConfig = {
   },
 
   // 🚀 终极特权 4: 彻底解决 /home 历史遗留问题，301 永久重定向到真首页
+  // ✅ 增加分类页面 301 重定向：旧短链接 /nba 等 -> 新路径 /category/nba
   async redirects() {
     return [
       {
@@ -34,6 +35,79 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      // 🏀 NBA 篮球
+      {
+        source: '/nba',
+        destination: '/category/nba',
+        permanent: true,
+      },
+      // ⚽ 足球世界杯
+      {
+        source: '/worldcup',
+        destination: '/category/worldcup',
+        permanent: true,
+      },
+      // ⚽ 欧冠
+      {
+        source: '/champions-league',
+        destination: '/category/champions-league',
+        permanent: true,
+      },
+      // ⚽ 英超
+      {
+        source: '/premier-league',
+        destination: '/category/premier-league',
+        permanent: true,
+      },
+      // 🏀 CBA
+      {
+        source: '/cba',
+        destination: '/category/cba',
+        permanent: true,
+      },
+      // 🏆 中超
+      {
+        source: '/csl',
+        destination: '/category/csl',
+        permanent: true,
+      },
+      // ⚽ 西甲
+      {
+        source: '/laliga',
+        destination: '/category/laliga',
+        permanent: true,
+      },
+      // ⚽ 意甲
+      {
+        source: '/serie-a',
+        destination: '/category/serie-a',
+        permanent: true,
+      },
+      // ⚽ 德甲
+      {
+        source: '/bundesliga',
+        destination: '/category/bundesliga',
+        permanent: true,
+      },
+      // 🏈 美式足球 NFL
+      {
+        source: '/nfl',
+        destination: '/category/nfl',
+        permanent: true,
+      },
+      // 🎾 网球
+      {
+        source: '/tennis',
+        destination: '/category/tennis',
+        permanent: true,
+      },
+      // 🏆 综合体育
+      {
+        source: '/sports',
+        destination: '/category/sports',
+        permanent: true,
+      },
+      // ⚡ 如需添加更多分类，请按照上面格式继续添加
     ];
   },
 };
