@@ -57,6 +57,17 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      // ✅ 修复 Google Search Console 404 死链
+      {
+        source: '/post/cG9zdDozMTcw',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/monaco-vs-psg-prediction-ucl-20260218/',
+        destination: '/post/monaco-vs-psg-prediction-ucl-20260218',
+        permanent: true,
+      },
       // 🏀 NBA 篮球
       {
         source: '/nba',
