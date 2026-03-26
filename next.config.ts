@@ -63,6 +63,12 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      // ✅ 摩纳哥文章重定向
+      {
+        source: '/monaco-vs-psg-prediction-ucl-20260218',
+        destination: '/post/monaco-vs-psg-prediction-ucl-20260218',
+        permanent: true,
+      },
       {
         source: '/monaco-vs-psg-prediction-ucl-20260218/',
         destination: '/post/monaco-vs-psg-prediction-ucl-20260218',
