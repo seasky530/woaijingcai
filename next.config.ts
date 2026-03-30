@@ -148,6 +148,14 @@ const nextConfig = {
       },
       // ⚡ 如需添加更多分类，请按照上面格式继续添加
 
+      // 🏷️ 旧 WordPress 标签页 301 重定向到首页
+      // Google Search Console 报错的 /tag/欧冠/、/tag/西甲/ 等死链
+      {
+        source: '/tag/:path*',
+        destination: '/',
+        permanent: true,
+      },
+
       // 🎯 【全局兜底规则】旧 WordPress 文章 301 重定向
       // 拦截所有根目录下的路径，自动重定向到 /post/:slug
       // 使用负向先行断言排除白名单路径，避免死循环和正常页面被拦截
