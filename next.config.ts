@@ -147,6 +147,15 @@ const nextConfig = {
         permanent: true,
       },
       // ⚡ 如需添加更多分类，请按照上面格式继续添加
+
+      // 🎯 【全局兜底规则】旧 WordPress 文章 301 重定向
+      // 拦截所有根目录下的路径，自动重定向到 /post/:slug
+      // 使用负向先行断言排除白名单路径，避免死循环和正常页面被拦截
+      {
+        source: '/:slug((?!^post$|^category$|^api$|^_next$|^favicon\\.ico$|^sitemap\\.xml$|^robots\\.txt$)[^/]+)',
+        destination: '/post/:slug',
+        permanent: true,
+      },
     ];
   },
 };
