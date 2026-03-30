@@ -47,7 +47,8 @@ async function getPost(slug: string) {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   // 兼容不同版本的 Next.js 参数读取
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.slug);
+  const decodedSlug = decodeURIComponent(resolvedParams.slug);
+  const post = await getPost(decodedSlug);
 
   if (!post) {
     return {
@@ -82,7 +83,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   // 同样兼容处理参数
   const resolvedParams = await params;
-  const post = await getPost(resolvedParams.slug);
+  const decodedSlug = decodeURIComponent(resolvedParams.slug);
+  const post = await getPost(decodedSlug);
 
   // 如果文章不存在的兜底页面
   if (!post) {
