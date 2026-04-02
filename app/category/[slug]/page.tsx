@@ -44,7 +44,7 @@ async function getCategoryPosts(slug: string) {
 }
 
 // 2. ✅ SEO 引擎：为每个分类页生成独立的 metadata 和 canonical URL
-export async function generateMetadata({ params }: any): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const decodedSlug = decodeURIComponent(resolvedParams.slug);
   const category = await getCategoryPosts(decodedSlug);
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 }
 
 // 3. 分类页主界面渲染
-export default async function CategoryPage({ params }: any) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const decodedSlug = decodeURIComponent(resolvedParams.slug);
   const category = await getCategoryPosts(decodedSlug);
