@@ -148,6 +148,85 @@ const nextConfig = {
       },
       // ⚡ 如需添加更多分类，请按照上面格式继续添加
 
+      // 🔴 中文分类 URL 301 重定向到英文别名（SEO 修复）
+      // 英超
+      {
+        source: '/category/英超',
+        destination: '/category/premier-league',
+        permanent: true,
+      },
+      {
+        source: '/category/英超/:path*',
+        destination: '/category/premier-league',
+        permanent: true,
+      },
+      // 欧冠
+      {
+        source: '/category/欧冠',
+        destination: '/category/champions-league',
+        permanent: true,
+      },
+      {
+        source: '/category/欧冠/:path*',
+        destination: '/category/champions-league',
+        permanent: true,
+      },
+      // 世界杯
+      {
+        source: '/category/世界杯',
+        destination: '/category/worldcup',
+        permanent: true,
+      },
+      {
+        source: '/category/世界杯/:path*',
+        destination: '/category/worldcup',
+        permanent: true,
+      },
+      // 德甲
+      {
+        source: '/category/德甲',
+        destination: '/category/bundesliga',
+        permanent: true,
+      },
+      {
+        source: '/category/德甲/:path*',
+        destination: '/category/bundesliga',
+        permanent: true,
+      },
+      // 法甲
+      {
+        source: '/category/法甲',
+        destination: '/category/ligue-1',
+        permanent: true,
+      },
+      {
+        source: '/category/法甲/:path*',
+        destination: '/category/ligue-1',
+        permanent: true,
+      },
+      // 西甲
+      {
+        source: '/category/西甲',
+        destination: '/category/la-liga',
+        permanent: true,
+      },
+      {
+        source: '/category/西甲/:path*',
+        destination: '/category/la-liga',
+        permanent: true,
+      },
+      // 意甲
+      {
+        source: '/category/意甲',
+        destination: '/category/serie-a',
+        permanent: true,
+      },
+      {
+        source: '/category/意甲/:path*',
+        destination: '/category/serie-a',
+        permanent: true,
+      },
+
       // 🏷️ 旧 WordPress 标签页 301 重定向到首页
       // Google Search Console 报错的 /tag/欧冠/、/tag/西甲/ 等死链
       {
