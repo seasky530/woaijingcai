@@ -18,6 +18,7 @@ async function getCategoryPosts(slug: string) {
               posts(first: 20) {
                 nodes {
                   id
+                  slug
                   title
                   excerpt
                   date
@@ -110,7 +111,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <div className="xl:w-[70%]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {posts.map((post: any) => (
-                <Link key={post.id} href={`/post/${post.id}`} className="group bg-white rounded-2xl border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <Link key={post.id} href={`/post/${post.slug}`} className="group bg-white rounded-2xl border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                   <div className="aspect-[16/9] w-full relative overflow-hidden bg-gray-100">
                     {post.featuredImage?.node?.sourceUrl ? (
                       <img 
