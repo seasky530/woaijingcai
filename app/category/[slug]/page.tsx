@@ -15,6 +15,11 @@ async function getCategoryPosts(slug: string) {
           query GetCategoryPosts($id: ID!) {
             category(id: $id, idType: SLUG) {
               name
+              description
+              seo {
+                title
+                metaDesc
+              }
               posts(first: 20) {
                 nodes {
                   id
@@ -63,9 +68,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // 确保与 sitemap 中的 URL 格式一致，避免重复内容问题
   const canonicalUrl = `https://woaijingc.com/category/${resolvedParams.slug}`;
 
+  // 优先使用 Yoast SEO 的数据，如果没有则使用 WordPress 默认描述或自动生成
+  const seoTitle = category.seo?.title || `${category.name}赛事预测与分析 | 我爱竞彩`;
+  const seoDescription = category.seo?.metaDesc 
+    || (category.description ? category.description.replace(/<[^>]*>/g, '').trim() : '')
+    || `最新最全的${category.name}赛事前瞻、盘口分析与高阶数据解读。`;
+
   return {
-    title: `${category.name}赛事预测与分析 | 我爱竞彩`,
-    description: `最新最全的${category.name}赛事前瞻、盘口分析与高阶数据解读。`,
+    title: seoTitle,
+    description: seoDescription,
     // ✅ 设置规范化链接，告知搜索引擎这是此页面的正式 URL
     alternates: {
       canonical: canonicalUrl,
@@ -103,7 +114,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <h1 className="text-3xl font-black text-gray-900 border-l-4 border-red-600 pl-4">
             {category.name} 资讯专区
           </h1>
-          <p className="mt-2 text-gray-500">共找到 {posts.length} 篇最新分析</p>
+          {/* 显示 Yoast SEO 的 metaDesc 或 WordPress 默认描述 */}
+          {(category.seo?.metaDesc || category.description) && (
+            <p 
+              className="mt-3 text-gray-600 text-base leading-relaxed"
+              dangerouslySetInnerHTML={{ 
+                __html: category.seo?.metaDesc || category.description 
+              }}
+            />
+          )}
+          <p className="mt-3 text-gray-500 text-sm">共找到 {posts.length} 篇最新分析</p>
         </div>
 
         <div className="flex flex-col xl:flex-row gap-8">
