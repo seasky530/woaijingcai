@@ -235,6 +235,23 @@ const nextConfig = {
         permanent: true,
       },
 
+      // 🛡️ 【精准拦截】旧预测/分析类文章路径，防止 Google 爬虫并发访问导致 GraphQL 超时（Vercel 504）
+      // 匹配根目录下类似 /team-a-vs-team-b-prediction-2024 或 /match-preview-20240101 的旧文章别名
+      // 正则解释：一段或多段"前缀-" + "prediction/preview/analysis" + 可选的"-后缀"
+      // ✅ 默认直接 301 到首页，在配置层面拦截，完全不消耗服务器性能查询数据库
+      {
+        source: '/:slug((?:[^/]+-)+(?:prediction|preview|analysis)(?:-[^/]+)*)',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/:slug((?:[^/]+-)+(?:prediction|preview|analysis)(?:-[^/]+)*)/',
+        destination: '/',
+        permanent: true,
+      },
+      // 🔄 如果你希望保留 SEO 权重并重定向到 /post/:slug，请将上面两条规则的 destination 改为 '/post/:slug'
+      // ⚠️ 注意：重定向到 /post/:slug 后，爬虫会二次请求该地址，仍可能触发 GraphQL 查询
+
       // 🎯 【全局兜底规则】旧 WordPress 文章 301 重定向
       // 拦截所有根目录下的路径，自动重定向到 /post/:slug
       // 使用负向先行断言排除白名单路径，避免死循环和正常页面被拦截
