@@ -129,7 +129,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             
             <SafeHtml 
               html={post.content}
-              className="text-gray-700 text-lg leading-relaxed space-y-6 [&>p]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4"
+              className="article-content text-gray-700 text-lg leading-relaxed space-y-6 [&>p]:mb-4 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4"
             />
           </div>
         </article>

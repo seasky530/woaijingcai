@@ -74,6 +74,21 @@ const parserOptions: HTMLReactParserOptions = {
         />
       );
     }
+
+    // 处理表格：在移动端开启横向滚动，防止列被挤压
+    if (domNode instanceof Element && domNode.name === "table") {
+      const attribs = domNode.attribs || {};
+      return (
+        <div 
+          className="overflow-x-auto my-6" 
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
+          <table className={attribs.class} id={attribs.id}>
+            {domToReact(domNode.children as DOMNode[], parserOptions) as ReactNode}
+          </table>
+        </div>
+      );
+    }
   },
 };
 
