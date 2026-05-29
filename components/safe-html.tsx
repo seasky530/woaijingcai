@@ -1,7 +1,7 @@
 "use client";
 
 import DOMPurify from "isomorphic-dompurify";
-import parse, { HTMLReactParserOptions, Element, domToReact, DOMNode, Text as DOMText } from "html-react-parser";
+import parse, { HTMLReactParserOptions, Element, domToReact, DOMNode } from "html-react-parser";
 import { ReactNode } from "react";
 
 interface SafeHtmlProps {
@@ -35,8 +35,10 @@ const sanitizeConfig = {
   ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|xxx):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
 };
 
-// html-react-parser 配置：自定义元素渲染
-const parserOptions: HTMLReactParserOptions = {
+// 创建 parser 配置
+// wrapTables=true 时拦截 table 并包上滚动容器；
+// wrapTables=false 时递归渲染表格内部，避免死循环。
+const createParserOptions = (wrapTables: boolean): HTMLReactParserOptions => ({
   replace: (domNode) => {
     if (domNode instanceof Element && domNode.name === "a") {
       const { href, target, rel, title, class: className } = domNode.attribs || {};
@@ -54,7 +56,7 @@ const parserOptions: HTMLReactParserOptions = {
           title={title}
           className={className || "text-red-600 hover:text-red-700 hover:underline transition-colors"}
         >
-          {domToReact(domNode.children as DOMNode[], parserOptions) as ReactNode}
+          {domToReact(domNode.children as DOMNode[], createParserOptions(wrapTables)) as ReactNode}
         </a>
       );
     }
@@ -76,21 +78,22 @@ const parserOptions: HTMLReactParserOptions = {
     }
 
     // 处理表格：在移动端开启横向滚动，防止列被挤压
-    if (domNode instanceof Element && domNode.name === "table") {
-      const attribs = domNode.attribs || {};
+    // 使用 domToReact 自然渲染表格，保留所有原始属性（class/style/width 等），
+    // 仅在外层包一个负责滚动的 div，彻底避免手动重建 <table> 导致的属性丢失。
+    if (wrapTables && domNode instanceof Element && domNode.name === "table") {
       return (
         <div 
           className="overflow-x-auto my-6" 
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
-          <table className={attribs.class} id={attribs.id}>
-            {domToReact(domNode.children as DOMNode[], parserOptions) as ReactNode}
-          </table>
+          {domToReact([domNode], createParserOptions(false)) as ReactNode}
         </div>
       );
     }
   },
-};
+});
+
+const parserOptions = createParserOptions(true);
 
 /**
  * 安全 HTML 渲染组件
@@ -98,6 +101,7 @@ const parserOptions: HTMLReactParserOptions = {
  * 2. 保留所有常用富文本标签和属性
  * 3. 特别处理 <a> 标签，确保 href、target、rel 属性正常工作
  * 4. 外部链接自动添加 target="_blank" 和 rel="noopener noreferrer"
+ * 5. <table> 自动包裹横向滚动容器，优化移动端体验
  */
 export function SafeHtml({ html, className }: SafeHtmlProps) {
   // 第一步：使用 DOMPurify 净化 HTML
