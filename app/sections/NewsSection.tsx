@@ -1,32 +1,9 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { TrendingUp, Clock, Eye, MessageCircle } from 'lucide-react';
 
 export default function NewsSection({ posts }: { posts: any[] }) {
-  const [activeTab, setActiveTab] = useState('全部');
-  const tabs = ['全部', '英超', 'NBA', '德甲', '法甲', '西甲', '意甲', '世界杯'];
-
-  // 🔥 极其强悍的过滤引擎：兼容任何被 Kimi 改乱的数据结构！
-  const filteredPosts = posts.filter(post => {
-    if (activeTab === '全部') return true;
-
-    let categoryNames: string[] = [];
-
-    // 智能识别 WordPress 原始结构 或 Kimi 修改后的结构
-    if (post.categories?.nodes) {
-      categoryNames = post.categories.nodes.map((node: any) => node.name);
-    } else if (Array.isArray(post.categories)) {
-      categoryNames = post.categories.map((c: any) => typeof c === 'string' ? c : c.name);
-    } else if (post.category) {
-      categoryNames = [typeof post.category === 'string' ? post.category : post.category.name];
-    }
-
-    // 只要文章包含了这个标签，就显示出来！
-    return categoryNames.includes(activeTab);
-  });
-
   return (
     <section className="mb-12">
       {/* 标题区 */}
@@ -40,27 +17,10 @@ export default function NewsSection({ posts }: { posts: any[] }) {
         </div>
       </div>
 
-      {/* 分类标签 */}
-      <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeTab === tab
-                ? 'bg-red-600 text-white shadow-md shadow-red-600/20 scale-105'
-                : 'bg-white text-gray-600 hover:bg-red-50 hover:text-red-600 border border-gray-100'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
       {/* 文章列表 */}
-      {filteredPosts.length > 0 ? (
+      {posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {filteredPosts.slice(0, 6).map((post: any) => {
+          {posts.slice(0, 6).map((post: any) => {
             // 兼容抓取分类名和图片
             const catName = post.categories?.nodes?.[0]?.name || 
                            (Array.isArray(post.categories) ? (typeof post.categories[0] === 'string' ? post.categories[0] : post.categories[0]?.name) : null) || 

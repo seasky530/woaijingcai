@@ -45,7 +45,7 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-medium overflow-x-auto hide-scrollbar">
+            <nav className="flex items-center gap-1 lg:gap-2 text-sm font-medium overflow-x-auto hide-scrollbar min-w-0">
               {navLinks.map((item) => {
                 // 智能判断：如果当前网址等于这个按钮的路径，就高亮变红！
                 const isActive = pathname === item.path;
