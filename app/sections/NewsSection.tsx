@@ -20,7 +20,7 @@ export default function NewsSection({ posts }: { posts: any[] }) {
       {/* 文章列表 */}
       {posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {posts.slice(0, 6).map((post: any) => {
+          {posts.map((post: any) => {
             // 兼容抓取分类名和图片
             const catName = post.categories?.nodes?.[0]?.name || 
                            (Array.isArray(post.categories) ? (typeof post.categories[0] === 'string' ? post.categories[0] : post.categories[0]?.name) : null) || 
