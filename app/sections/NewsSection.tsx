@@ -45,14 +45,7 @@ export default function NewsSection({ posts }: { posts: any[] }) {
                   </div>
                   {post.matchTime && (
                     <div className="absolute top-2 right-2 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">
-                      {(() => {
-                        const d = new Date(post.matchTime);
-                        const MM = String(d.getMonth() + 1).padStart(2, '0');
-                        const DD = String(d.getDate()).padStart(2, '0');
-                        const HH = String(d.getHours()).padStart(2, '0');
-                        const mm = String(d.getMinutes()).padStart(2, '0');
-                        return `开赛时间 ${MM}-${DD} ${HH}:${mm}`;
-                      })()}
+                      开赛时间 {post.matchTime.substring(5, 16)}
                     </div>
                   )}
                 </div>
