@@ -19,7 +19,8 @@ export default function Navbar() {
   // 完美对接你后台的别名，并提前部署了 2026 世界杯的长线入口！
   const navLinks = [
     { name: '首页', path: '/' },
-    { name: '世界杯', path: '/category/worldcup' }, 
+    { name: '世界杯', path: '/category/worldcup' },
+    { name: 'NBA', path: '/category/nba' },
     { name: '欧冠', path: '/category/champions-league' },
     { name: '英超', path: '/category/premier-league' },
     { name: '德甲', path: '/category/bundesliga' },
@@ -27,7 +28,6 @@ export default function Navbar() {
     { name: '西甲', path: '/category/la-liga' },
     { name: '意甲', path: '/category/serie-a' },
     { name: '其他联赛', path: '/category/qita' },
-    { name: 'NBA', path: '/category/nba' },
   ];
 
   return (
