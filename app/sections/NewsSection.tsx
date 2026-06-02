@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { TrendingUp, Clock, Eye, MessageCircle } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 export default function NewsSection({ posts }: { posts: any[] }) {
   return (
@@ -43,19 +43,25 @@ export default function NewsSection({ posts }: { posts: any[] }) {
                       <TrendingUp className="w-3 h-3" /> 热门
                     </span>
                   </div>
+                  {post.matchTime && (
+                    <div className="absolute top-2 right-2 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">
+                      {(() => {
+                        const d = new Date(post.matchTime);
+                        const MM = String(d.getMonth() + 1).padStart(2, '0');
+                        const DD = String(d.getDate()).padStart(2, '0');
+                        const HH = String(d.getHours()).padStart(2, '0');
+                        const mm = String(d.getMinutes()).padStart(2, '0');
+                        return `开赛时间 ${MM}-${DD} ${HH}:${mm}`;
+                      })()}
+                    </div>
+                  )}
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2 mb-2 leading-snug">
                     {post.title}
                   </h3>
-                  <p className="text-sm text-gray-500 line-clamp-1 mb-4">
-                    {post.excerpt ? post.excerpt.replace(/<[^>]+>/g, '') : '深度赛事前瞻与战术分析'}
-                  </p>
-                  <div className="mt-auto flex items-center justify-between text-xs text-gray-400">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {post.date ? new Date(post.date).toLocaleDateString('zh-CN') : '近期'}</span>
-                    </div>
-                  </div>
+
+                  <div className="mt-auto" />
                 </div>
               </Link>
             );

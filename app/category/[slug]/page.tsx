@@ -32,6 +32,9 @@ async function getCategoryPosts(slug: string) {
                       sourceUrl
                     }
                   }
+                  matchInfo {
+                    matchTime
+                  }
                 }
               }
             }
@@ -142,16 +145,27 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">暂无图片</div>
                     )}
+                    {post.matchInfo?.matchTime && (
+                      <div className="absolute top-2 right-2 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">
+                        {(() => {
+                          const d = new Date(post.matchInfo.matchTime);
+                          const MM = String(d.getMonth() + 1).padStart(2, '0');
+                          const DD = String(d.getDate()).padStart(2, '0');
+                          const HH = String(d.getHours()).padStart(2, '0');
+                          const mm = String(d.getMinutes()).padStart(2, '0');
+                          return `开赛时间 ${MM}-${DD} ${HH}:${mm}`;
+                        })()}
+                      </div>
+                    )}
                   </div>
                   <div className="p-5 flex flex-col flex-1">
                     <h2 className="text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2 mb-3">
                       {post.title}
                     </h2>
-                    <div className="mt-auto flex items-center justify-between text-xs text-gray-500">
+                    <div className="mt-auto flex items-center text-xs text-gray-500">
                       <span className="bg-red-50 text-red-600 px-2.5 py-1 rounded-md font-medium">
                         {category.name}
                       </span>
-                      <span>{new Date(post.date).toLocaleDateString('zh-CN')}</span>
                     </div>
                   </div>
                 </Link>

@@ -43,6 +43,9 @@ async function getLatestMatches() {
                     sourceUrl
                   }
                 }
+                matchInfo {
+                  matchTime
+                }
               }
             }
           }
@@ -76,6 +79,7 @@ async function getLatestMatches() {
         image: imageUrl,
         date: post.date,
         publishTime: publishDate,
+        matchTime: post.matchInfo?.matchTime,
         // 下面这些互动数据你的 WP 暂时没有，我们先随机生成一些假的让排版好看
         author: '本站专栏',
         views: Math.floor(Math.random() * 50000) + 10000, 
