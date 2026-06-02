@@ -32,7 +32,6 @@ const rightAds: AdItem[] = [
 
 export default function RightAd() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const nextAd = () => {
     setCurrentIndex((prev) => (prev + 1) % rightAds.length);
@@ -50,33 +49,11 @@ export default function RightAd() {
     return () => clearInterval(timer);
   }, []);
 
-  // Desktop collapsed state
-  if (isCollapsed) {
-    return (
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden xl:block">
-        <button
-          onClick={() => setIsCollapsed(false)}
-          className="bg-gradient-to-l from-red-600 to-red-700 text-white p-2 rounded-l-xl shadow-lg hover:from-red-700 hover:to-red-800 transition-all"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="hidden lg:block">
       {/* Desktop Fixed Ad */}
       <div className="fixed right-4 top-24 z-40 hidden xl:block">
         <div className="relative">
-          {/* Collapse button */}
-          <button
-            onClick={() => setIsCollapsed(true)}
-            className="absolute top-1/2 -left-3 -translate-y-1/2 w-6 h-12 bg-gradient-to-l from-red-600 to-red-700 text-white rounded-l-lg flex items-center justify-center hover:from-red-700 hover:to-red-800 transition-all z-10 shadow-lg"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-
           {/* Ad Container — 与主轮播图同高 */}
           <div className="w-[200px] h-[500px]">
             {/* Ad Content */}
