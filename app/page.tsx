@@ -6,6 +6,7 @@ import Footer from './sections/Footer';
 import LeftAd from './sections/LeftAd';
 import RightAd from './sections/RightAd';
 import Pagination from './components/Pagination';
+import MobileAdCarousel from './components/MobileAdCarousel';
 import type { Metadata } from 'next';
 
 const PAGE_SIZE = 12;
@@ -120,8 +121,9 @@ export default async function Home({ searchParams }: { searchParams?: Promise<{ 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h1 className="sr-only">我爱竞彩 - 全球顶级体育赛事预测与盘口分析</h1>
         <HeroCarousel posts={displayPosts} />
-        <div className="xl:hidden mt-6 mb-4">
-          <LeftAd />
+        {/* 手机端横幅轮播广告位 */}
+        <div className="block lg:hidden w-full my-4">
+          <MobileAdCarousel />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
           <div className="lg:col-span-2">

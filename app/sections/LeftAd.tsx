@@ -12,15 +12,21 @@ interface AdItem {
 const leftAds: AdItem[] = [
   {
     id: 1,
-    image: '这里填你的广告图片地址',
-    title: '专业运动装备',
-    link: '这里填你的广告链接',
+    image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/世博竖版-scaled.png',
+    title: '世博国际',
+    link: 'https://hiebs.com/?ch=dIKId7/#/home',
   },
   {
     id: 2,
-    image: '这里填你的广告图片地址',
-    title: '健身会员特惠',
-    link: '这里填你的广告链接',
+    image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/w88竖版-scaled.png',
+    title: 'W88',
+    link: 'https://www.w88ww6.com/?affiliateid=156754',
+  },
+  {
+    id: 3,
+    image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/J9竖版-scaled.png',
+    title: 'J9',
+    link: 'https://www.j9u10.com',
   },
 ];
 
@@ -51,7 +57,7 @@ export default function LeftAd() {
   }
 
   return (
-    <>
+    <div className="hidden lg:block">
       {/* Desktop Fixed Ad */}
       <div className="fixed left-4 top-24 z-40 hidden xl:block">
         <div className="relative">
@@ -63,29 +69,21 @@ export default function LeftAd() {
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          {/* Ad Container */}
-          <div className="w-[160px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
-            {/* Ad Label */}
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-2 text-xs text-gray-500 text-center border-b border-gray-100 font-medium">
-              广告
-            </div>
-
+          {/* Ad Container — 与主轮播图同高 */}
+          <div className="w-[200px] h-[500px]">
             {/* Ad Content */}
-            <div className="relative">
+            <div className="relative h-full">
               <a
                 href={leftAds[currentIndex].link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block"
+                className="block h-full"
               >
                 <img
                   src={leftAds[currentIndex].image}
                   alt={leftAds[currentIndex].title}
-                  className="w-full h-[400px] object-cover"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                  <p className="text-white text-sm font-semibold">{leftAds[currentIndex].title}</p>
-                </div>
               </a>
 
               {/* Navigation Arrows */}
@@ -107,9 +105,9 @@ export default function LeftAd() {
               )}
             </div>
 
-            {/* Dots Indicator */}
+            {/* Dots Indicator — 去掉背景色 */}
             {leftAds.length > 1 && (
-              <div className="flex justify-center gap-1.5 py-3 bg-gray-50">
+              <div className="flex justify-center gap-1.5 py-2">
                 {leftAds.map((_, index) => (
                   <button
                     key={index}
@@ -125,60 +123,52 @@ export default function LeftAd() {
         </div>
       </div>
 
-      {/* Mobile Ad - Inline */}
-      <div className="xl:hidden mb-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 text-xs text-gray-500 font-medium flex items-center justify-between">
-            <span>广告</span>
-          </div>
-          <div className="relative">
-            <a
-              href={leftAds[currentIndex].link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <img
-                src={leftAds[currentIndex].image}
-                alt={leftAds[currentIndex].title}
-                className="w-full h-48 object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <p className="text-white font-semibold">{leftAds[currentIndex].title}</p>
-              </div>
-            </a>
+      {/* Mobile Ad — Inline 横幅 */}
+      <div className="xl:hidden mb-6 bg-black rounded-lg overflow-hidden">
+        <div className="relative">
+          <a
+            href={leftAds[currentIndex].link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <img
+              src={leftAds[currentIndex].image}
+              alt={leftAds[currentIndex].title}
+              className="w-full h-auto object-contain"
+            />
+          </a>
 
-            {/* Mobile Navigation */}
-            {leftAds.length > 1 && (
-              <>
-                <button
-                  onClick={prevAd}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={nextAd}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-                <div className="absolute bottom-2 right-2 flex gap-1">
-                  {leftAds.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        index === currentIndex ? 'bg-white' : 'bg-white/50'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+          {/* Mobile Navigation */}
+          {leftAds.length > 1 && (
+            <>
+              <button
+                onClick={prevAd}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={nextAd}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+              <div className="absolute bottom-2 right-2 flex gap-1">
+                {leftAds.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      index === currentIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
