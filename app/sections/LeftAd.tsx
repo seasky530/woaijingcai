@@ -12,15 +12,15 @@ interface AdItem {
 const leftAds: AdItem[] = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=300&h=600&fit=crop',
+    image: '这里填你的广告图片地址',
     title: '专业运动装备',
-    link: '#',
+    link: '这里填你的广告链接',
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=300&h=600&fit=crop',
+    image: '这里填你的广告图片地址',
     title: '健身会员特惠',
-    link: '#',
+    link: '这里填你的广告链接',
   },
 ];
 
@@ -72,7 +72,12 @@ export default function LeftAd() {
 
             {/* Ad Content */}
             <div className="relative">
-              <a href={leftAds[currentIndex].link} className="block">
+              <a
+                href={leftAds[currentIndex].link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
                 <img
                   src={leftAds[currentIndex].image}
                   alt={leftAds[currentIndex].title}
@@ -127,7 +132,12 @@ export default function LeftAd() {
             <span>广告</span>
           </div>
           <div className="relative">
-            <a href={leftAds[currentIndex].link} className="block">
+            <a
+              href={leftAds[currentIndex].link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
               <img
                 src={leftAds[currentIndex].image}
                 alt={leftAds[currentIndex].title}
@@ -137,7 +147,7 @@ export default function LeftAd() {
                 <p className="text-white font-semibold">{leftAds[currentIndex].title}</p>
               </div>
             </a>
-            
+
             {/* Mobile Navigation */}
             {leftAds.length > 1 && (
               <>

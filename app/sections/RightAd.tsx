@@ -12,15 +12,15 @@ interface AdItem {
 const rightAds: AdItem[] = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=300&h=600&fit=crop',
+    image: '这里填你的广告图片地址',
     title: '专业运动品牌',
-    link: '#',
+    link: '这里填你的广告链接',
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?w=300&h=600&fit=crop',
+    image: '这里填你的广告图片地址',
     title: '赛事直播会员',
-    link: '#',
+    link: '这里填你的广告链接',
   },
 ];
 
@@ -72,7 +72,12 @@ export default function RightAd() {
 
             {/* Ad Content */}
             <div className="relative">
-              <a href={rightAds[currentIndex].link} className="block">
+              <a
+                href={rightAds[currentIndex].link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
                 <img
                   src={rightAds[currentIndex].image}
                   alt={rightAds[currentIndex].title}
@@ -127,7 +132,12 @@ export default function RightAd() {
             <span>广告</span>
           </div>
           <div className="relative">
-            <a href={rightAds[currentIndex].link} className="block">
+            <a
+              href={rightAds[currentIndex].link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
               <img
                 src={rightAds[currentIndex].image}
                 alt={rightAds[currentIndex].title}
@@ -137,7 +147,7 @@ export default function RightAd() {
                 <p className="text-white font-semibold">{rightAds[currentIndex].title}</p>
               </div>
             </a>
-            
+
             {/* Mobile Navigation */}
             {rightAds.length > 1 && (
               <>
