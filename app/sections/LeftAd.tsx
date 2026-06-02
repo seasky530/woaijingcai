@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface AdItem {
@@ -41,6 +41,14 @@ export default function LeftAd() {
   const prevAd = () => {
     setCurrentIndex((prev) => (prev - 1 + leftAds.length) % leftAds.length);
   };
+
+  // 自动轮播：每 5 秒切换一次
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % leftAds.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Desktop collapsed state
   if (isCollapsed) {
