@@ -45,7 +45,7 @@ export default function NewsSection({ posts }: { posts: any[] }) {
                   </div>
                   {post.matchTime && (
                     <div className="absolute top-2 right-2 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">
-                      开赛时间 {post.matchTime.substring(5, 16)}
+                      开赛时间 {post.matchTime.replace('T', ' ').substring(5, 16)}
                     </div>
                   )}
                 </div>

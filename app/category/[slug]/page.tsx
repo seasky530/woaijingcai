@@ -172,7 +172,7 @@ export default async function CategoryPage({
                     )}
                     {post.matchInfo?.matchTime && (
                       <div className="absolute top-2 right-2 z-10 bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded">
-                        开赛时间 {post.matchInfo.matchTime.substring(5, 16)}
+                        开赛时间 {post.matchInfo.matchTime.replace('T', ' ').substring(5, 16)}
                       </div>
                     )}
                   </div>
