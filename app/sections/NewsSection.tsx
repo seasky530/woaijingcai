@@ -4,56 +4,35 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { TrendingUp } from 'lucide-react';
 
-/** 从 matchTime 提取展示用的 MM-DD 和用于比较的 Date 对象 */
-function parseMatchDate(matchTime: string | undefined | null): { label: string; dateObj: Date } | null {
-  if (!matchTime) return null;
-  const date = new Date(matchTime);
-  if (isNaN(date.getTime())) return null;
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return { label: `${month}-${day}`, dateObj: date };
+/** 基于客户端本地时间，生成今天、明天、后天连续 3 天的 MM-DD 数组 */
+function getNextThreeDays(): string[] {
+  const dates: string[] = [];
+  const now = new Date();
+  for (let i = 0; i < 3; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    dates.push(`${month}-${day}`);
+  }
+  return dates;
 }
 
 export default function NewsSection({ posts }: { posts: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>('全部');
 
-  /*
-   * 日期 Tab 数据来源说明：
-   * 当前 dateOptions 是从「当前页传入的 posts」中提取 matchTime 并去重生成的。
-   * 因此如果后端分页没有把未来几天的文章全部返回，Tab 上就不会显示那些日期。
-   *
-   * 如果想让 Tab 固定展示未来 N 天的完整日期列表（无论当前页有没有对应文章），
-   * 需要后端接口提供一个独立的聚合端点（例如返回未来 7 天所有有赛程的日期），
-   * 前端再把这个聚合数据与当前页的文章列表做关联。
-   *
-   * 目前阶段：保持「基于当前页数据提取」的逻辑，仅过滤掉过期日期即可。
-   */
+  // Tab 固定展示：全部 + 今天/明天/后天
   const dateOptions = useMemo(() => {
-    // 今天 00:00（本地时间），用于过滤过期日期
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    return ['全部', ...getNextThreeDays()];
+  }, []);
 
-    const dateMap = new Map<string, Date>();
-
-    posts.forEach((post) => {
-      const parsed = parseMatchDate(post.matchTime);
-      if (parsed && parsed.dateObj >= today) {
-        dateMap.set(parsed.label, parsed.dateObj);
-      }
-    });
-
-    // 按时间先后排序
-    const sortedLabels = Array.from(dateMap.entries())
-      .sort((a, b) => a[1].getTime() - b[1].getTime())
-      .map(([label]) => label);
-
-    return ['全部', ...sortedLabels];
-  }, [posts]);
-
-  // 根据选中日期过滤文章
+  // 根据选中日期过滤文章：matchTime 字符串是否包含该 MM-DD
   const filteredPosts = useMemo(() => {
     if (selectedDate === '全部') return posts;
-    return posts.filter((post) => parseMatchDate(post.matchTime)?.label === selectedDate);
+    return posts.filter((post) => {
+      if (!post.matchTime) return false;
+      return post.matchTime.includes(selectedDate);
+    });
   }, [posts, selectedDate]);
 
   return (
