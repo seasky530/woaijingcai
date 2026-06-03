@@ -24,8 +24,9 @@ export const metadata: Metadata = {
 
 // 1. 数据引擎：根据页码向 WordPress 索要数据，在服务端切片分页
 async function getLatestMatches(page: number = 1) {
-  // 多查1条用于判断是否有下一页
-  const first = page * PAGE_SIZE + 1;
+  // 调大拉取数量，确保首页能覆盖未来几天的比赛文章
+  // 分页逻辑仍保留：按页码切片，但底层至少拉 50 条
+  const first = Math.max(50, page * PAGE_SIZE + 1);
   try {
     const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
@@ -59,7 +60,7 @@ async function getLatestMatches(page: number = 1) {
         `,
         variables: { first }
       }),
-      next: { revalidate: 60 }
+      cache: 'no-store'
     });
     const json = await res.json();
     console.log('[首页 GraphQL 响应]', JSON.stringify(json, null, 2));
