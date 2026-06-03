@@ -18,6 +18,40 @@ function getNextThreeDays(): string[] {
   return dates;
 }
 
+/**
+ * 判断 matchTime 是否包含目标日期
+ * 支持多种格式：YYYY-MM-DD、YYYY-M-D、MM-DD、M-D、MM/DD、M/D
+ */
+function dateMatches(targetLabel: string, matchTime: string | undefined | null): boolean {
+  if (!matchTime) return false;
+
+  // 1. 清理 targetLabel 中的中文字符，提取核心日期（如 '06-03 赛事' → '06-03'）
+  const targetClean = targetLabel.replace(/[^\d\-/]/g, '');
+  const targetParsed = targetClean.match(/^(\d{1,2})[-/](\d{1,2})$/);
+  if (!targetParsed) return false;
+
+  const targetMonth = parseInt(targetParsed[1], 10);
+  const targetDay = parseInt(targetParsed[2], 10);
+
+  // 2. 优先从 matchTime 中提取 YYYY-MM-DD 或 YYYY-M-D 格式的月份和日期
+  const isoMatch = matchTime.match(/\d{4}[-/](\d{1,2})[-/](\d{1,2})/);
+  if (isoMatch) {
+    const month = parseInt(isoMatch[1], 10);
+    const day = parseInt(isoMatch[2], 10);
+    if (month === targetMonth && day === targetDay) return true;
+  }
+
+  // 3. 兜底：字符串包含检查，覆盖补零和不补零、横杠和斜杠等变体
+  const patterns = [
+    `${String(targetMonth).padStart(2, '0')}-${String(targetDay).padStart(2, '0')}`,
+    `${targetMonth}-${targetDay}`,
+    `${String(targetMonth).padStart(2, '0')}/${String(targetDay).padStart(2, '0')}`,
+    `${targetMonth}/${targetDay}`,
+  ];
+
+  return patterns.some((p) => matchTime.includes(p));
+}
+
 export default function NewsSection({ posts }: { posts: any[] }) {
   const [selectedDate, setSelectedDate] = useState<string>('全部');
 
@@ -26,13 +60,10 @@ export default function NewsSection({ posts }: { posts: any[] }) {
     return ['全部', ...getNextThreeDays()];
   }, []);
 
-  // 根据选中日期过滤文章：matchTime 字符串是否包含该 MM-DD
+  // 根据选中日期过滤文章
   const filteredPosts = useMemo(() => {
     if (selectedDate === '全部') return posts;
-    return posts.filter((post) => {
-      if (!post.matchTime) return false;
-      return post.matchTime.includes(selectedDate);
-    });
+    return posts.filter((post) => dateMatches(selectedDate, post.matchTime));
   }, [posts, selectedDate]);
 
   return (
