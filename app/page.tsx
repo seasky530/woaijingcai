@@ -5,11 +5,8 @@ import Sidebar from './sections/Sidebar';
 import Footer from './sections/Footer';
 import LeftAd from './sections/LeftAd';
 import RightAd from './sections/RightAd';
-import Pagination from './components/Pagination';
 import MobileAdCarousel from './components/MobileAdCarousel';
 import type { Metadata } from 'next';
-
-const PAGE_SIZE = 12;
 
 // ✅ 首页 SEO 配置 - 必须明确设置 canonical URL，避免被搜索引擎视为重复内容
 export const metadata: Metadata = {
@@ -22,11 +19,9 @@ export const metadata: Metadata = {
   },
 };
 
-// 1. 数据引擎：根据页码向 WordPress 索要数据，在服务端切片分页
-async function getLatestMatches(page: number = 1) {
-  // 调大拉取数量，确保首页能覆盖未来几天的比赛文章
-  // 分页逻辑仍保留：按页码切片，但底层至少拉 50 条
-  const first = Math.max(50, page * PAGE_SIZE + 1);
+// 1. 数据引擎：向 WordPress 索要最近 100 篇文章，覆盖未来几天所有赛事
+async function getLatestMatches() {
+  const first = 100;
   try {
     const res = await fetch('https://api.woaijingc.com/graphql', {
       method: 'POST',
@@ -103,34 +98,24 @@ async function getLatestMatches(page: number = 1) {
   }
 }
 
-export default async function Home({ searchParams }: { searchParams?: Promise<{ page?: string }> }) {
-  const resolvedSearchParams = await searchParams;
-  const page = Math.max(1, Number(resolvedSearchParams?.page) || 1);
-
-  // 在服务器端拿到加工后的文章
-  const posts = await getLatestMatches(page);
-
-  // 服务端切片：只取当前页应显示的条目
-  const start = (page - 1) * PAGE_SIZE;
-  const end = page * PAGE_SIZE;
-  const hasNextPage = posts.length > end;
-  const displayPosts = posts.slice(start, end);
+export default async function Home() {
+  // 在服务器端拿到加工后的全部文章
+  const posts = await getLatestMatches();
 
   return (
     <div className="min-h-screen bg-gray-50/50">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h1 className="sr-only">我爱竞彩 - 全球顶级体育赛事预测与盘口分析</h1>
-        <HeroCarousel posts={displayPosts} />
+        <HeroCarousel posts={posts} />
         {/* 手机端横幅轮播广告位 */}
         <div className="block lg:hidden w-full my-4">
           <MobileAdCarousel />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
           <div className="lg:col-span-2">
-            {/* 把加工好的完美数据送给列表！ */}
-            <NewsSection posts={displayPosts} />
-            <Pagination currentPage={page} hasNextPage={hasNextPage} basePath="/" />
+            {/* 把全部文章交给 NewsSection，由其内部按日期过滤并分页 */}
+            <NewsSection posts={posts} />
           </div>
           <div className="lg:col-span-1 space-y-5">
             <div className="hidden lg:block">
