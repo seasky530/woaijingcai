@@ -42,13 +42,16 @@ export default function MobileAdCarousel() {
         href={ads[currentIndex].link}
         target="_blank"
         rel="noopener noreferrer"
-        className="block"
+        className="relative block"
       >
         <img
           src={ads[currentIndex].image}
           alt={`广告 ${ads[currentIndex].id}`}
           className="w-full h-auto object-contain"
         />
+        <span className="pointer-events-none absolute bottom-2 right-2 bg-red-600 text-white px-3 py-1 text-sm font-bold rounded shadow-lg">
+          点击加入
+        </span>
       </a>
 
       {/* 底部小圆点指示器 */}
