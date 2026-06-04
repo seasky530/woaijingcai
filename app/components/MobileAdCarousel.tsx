@@ -49,7 +49,7 @@ export default function MobileAdCarousel() {
           alt={`广告 ${ads[currentIndex].id}`}
           className="w-full h-auto object-contain"
         />
-        <span className="pointer-events-none absolute bottom-2 right-2 bg-red-600 text-white px-3 py-1 text-sm font-bold rounded shadow-lg">
+        <span className="pointer-events-none absolute bottom-1.5 right-1.5 bg-red-600/90 text-white px-1 py-0.5 text-[9px] leading-none font-bold rounded-sm shadow-lg md:bottom-2 md:right-2 md:bg-red-600 md:px-3 md:py-1 md:text-sm">
           点击加入
         </span>
       </a>
