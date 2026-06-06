@@ -159,7 +159,7 @@ export default async function CategoryPage({
           <div className="xl:w-[70%]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {displayPosts.map((post: any) => (
-                <Link key={post.id} href={`/post/${post.slug}`} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                <Link key={post.id} href={`/post/${post.slug}`} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
                   <div className="aspect-[16/9] w-full relative overflow-hidden bg-gray-100">
                     {post.featuredImage?.node?.sourceUrl ? (
                       <img
