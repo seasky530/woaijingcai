@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       {/* 加上 relative 确保子元素的绝对定位不会跑偏 */}
-      <body className="antialiased relative">
+      <body className="antialiased relative bg-white">
         
         {/* 🔥 全局悬浮广告：只要屏幕够宽 (xl:block)，就在所有页面显示！ */}
         <div className="hidden xl:block">

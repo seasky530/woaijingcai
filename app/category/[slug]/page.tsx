@@ -134,7 +134,7 @@ export default async function CategoryPage({
   const displayPosts = posts.slice(start, end);
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-slate-100">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -159,7 +159,7 @@ export default async function CategoryPage({
           <div className="xl:w-[70%]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {displayPosts.map((post: any) => (
-                <Link key={post.id} href={`/post/${post.slug}`} className="group bg-white rounded-2xl border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+                <Link key={post.id} href={`/post/${post.slug}`} className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                   <div className="aspect-[16/9] w-full relative overflow-hidden bg-gray-100">
                     {post.featuredImage?.node?.sourceUrl ? (
                       <img

@@ -103,7 +103,7 @@ export default async function Home() {
   const posts = await getLatestMatches();
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-slate-100">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h1 className="sr-only">我爱竞彩 - 全球顶级体育赛事预测与盘口分析</h1>
