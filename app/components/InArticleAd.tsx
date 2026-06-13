@@ -7,7 +7,7 @@ interface InArticleAdProps {
 const ads = [
   {
     image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/sb文章内置图-scaled.png',
-    link: 'https://hiebs.com/?ch=dIKId7/#/home',
+    link: 'https://hiebs.com?ch=dIkId7',
   },
   {
     image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/W88文章内置图-1-scaled.png',

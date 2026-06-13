@@ -12,7 +12,7 @@ const ads: AdItem[] = [
   {
     id: 1,
     image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/世博横版-scaled.png',
-    link: 'https://hiebs.com/?ch=dIKId7/#/home',
+    link: 'https://hiebs.com?ch=dIkId7',
   },
   {
     id: 2,

@@ -14,7 +14,7 @@ const leftAds: AdItem[] = [
     id: 1,
     image: 'https://api.woaijingc.com/wp-content/uploads/2026/06/世博竖版-scaled.png',
     title: '世博国际',
-    link: 'https://hiebs.com/?ch=dIKId7/#/home',
+    link: 'https://hiebs.com?ch=dIkId7',
   },
   {
     id: 2,
